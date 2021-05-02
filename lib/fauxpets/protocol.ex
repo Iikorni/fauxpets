@@ -71,7 +71,7 @@ defmodule Fauxpets.Protocol do
                 Fauxpets.ProtocolBucket.login(bucket, user)
 
               {:error, _} ->
-                nil
+                :ok = transport.close(socket)
             end
 
           :client_information ->
@@ -83,6 +83,7 @@ defmodule Fauxpets.Protocol do
                   Logger.info("Sending user data!")
                   user = Fauxpets.ProtocolBucket.get_user(bucket)
                   Fauxpets.Protocol.Server.MyUserInfo.send_packet(socket, transport, user: user)
+                  Fauxpets.Protocol.Server.BoxList.send_packet(socket, transport, box_list: [%{name: "Test Box"}])
                   Fauxpets.Protocol.Server.PiggyBank.send_packet(socket, transport,
                     gold: user.wallet.gold,
                     pink: user.wallet.pink,

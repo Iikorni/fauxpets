@@ -23,7 +23,7 @@ defmodule Fauxpets.Protocol.Server.PetList do
       Fauxpets.Protocol.Util.encode_string(pet.name) <>
       Fauxpets.Protocol.Util.encode_int(pet.portrait_no) <>
       Fauxpets.Protocol.Util.encode_byte(index) <>
-      Fauxpets.Protocol.Util.encode_byte(1)
+      Fauxpets.Protocol.Util.encode_byte(0)
     append_pet_to_list(packet, index + 1, tail)
   end
 end

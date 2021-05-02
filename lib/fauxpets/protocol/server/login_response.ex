@@ -13,19 +13,20 @@ defmodule Fauxpets.Protocol.Server.LoginResponse do
   defp construct_login_response_packet(login_response) do
     case login_response do
       {:ok, user} ->
-        user_id = <<user.id::integer-size(4)-unit(8)>>
-
         Fauxpets.Protocol.Util.create_packet(
           0x1B5A,
-          <<0x00::size(1)-unit(8)>> <>
-            user_id <> Fauxpets.Protocol.Util.encode_string(user.username)
+          Fauxpets.Protocol.Util.encode_byte(0) <>
+          Fauxpets.Protocol.Util.encode_int(user.id) <>
+          Fauxpets.Protocol.Util.encode_string(user.username)
         )
 
       {:error, :bad_account} ->
-        Fauxpets.Protocol.Util.create_packet(0x1B5A, <<0x02::size(1)-unit(8)>>)
+        Fauxpets.Protocol.Util.create_packet(0x1B5A,
+        Fauxpets.Protocol.Util.encode_byte(2))
 
       {:error, :bad_password} ->
-        Fauxpets.Protocol.Util.create_packet(0x1B5A, <<0x01::size(1)-unit(8)>>)
+        Fauxpets.Protocol.Util.create_packet(0x1B5A,
+        Fauxpets.Protocol.Util.encode_byte(1))
     end
   end
 end

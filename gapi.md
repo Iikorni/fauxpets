@@ -38,6 +38,72 @@ Codes seem to be divided as follows:
 
 <br>
 
+### **0x1B5D - `S_START_STREAM`**
+Seems to tell the client that the connection is ready for the initial login handshake, which prompts the client to send over `C_REQUEST_LOGIN`.
+
+
+---
+
+| Field Name | Field Type | Notes                                                   |
+| ---------- | ---------- | ------------------------------------------------------- |
+| Salt       | cstring    | The salt to use in hashing the passwords for transport. |
+
+<br>
+
+### **0x1Bd8 - `S_PIGGY_BANK`**
+A packet describing a  user's "piggy bank," i.e. their collection of shells. It's unclear if this has any other use other than updating the current user's shells, but since there's no UserID field, this is highly unlikely.
+
+---
+
+| Field Name | Field Type | Notes                      |
+| ---------- | ---------- | -------------------------- |
+| Gold       | uint       | Number of gold shells      |
+| Pink       | uint       | Number of pink shells      |
+| Green      | uint       | Number of green shells     |
+| Prize      | uint       | Number of prize/referrals? |
+
+<br>
+
+### **0x1BF7 - `S_PET_LIST`**
+Arbitrary list of pets. It's not clear where exactly this is meant to be used, but if it's used during the initial loading processes, and the pet owner IDs match up with the user's ID, it's considered to be that user's pet, and is added to their lower bar.
+
+---
+
+| Field Name | Field Type | Notes                                |
+| ---------- | ---------- | ------------------------------------ |
+| UserID     | uint       | The user whose pets these are.       |
+| Len        | ushort     | Number of pets in the following list |
+
+The following field group is repeated `Len` times:
+
+| Field Name | Field Type | Notes                                                   |
+| ---------- | ---------- | ------------------------------------------------------- |
+| PetID      | uint       | The ID of the pet                                       |
+| PetName    | cstring    | The name of the pet                                     |
+| PortraitNo | uint       | The portrait ID of the pet                              |
+| Index      | byte       | Index of the pet in the local pet list - starts from 1. |
+| Gender     | bool       | `0/false` is male, `1/true` is female.                  |
+
+<br>
+
+### **0x1BFD - `S_BOX_LIST`**
+Seems to be a list of storage boxes for the current user. Doesn't really do much on its own, aside from set up the boxes in the inventory window (albeit useless w/o item slots, which are currently unable to be added?)
+
+---
+
+| Field Name | Field Type | Notes                                 |
+| ---------- | ---------- | ------------------------------------- |
+| Len        | ushort     | Number of boxes in the following list |
+
+The following field group is repeated `Len` times:
+
+| Field Name | Field Type | Notes                              |
+| ---------- | ---------- | ---------------------------------- |
+| Index?     | ushort     | Unknown value. Might be the index? |
+| BoxName    | cstring    | Name of the box.                   |
+
+<br>
+
 ### **0x1D4D - `S_LOAD_END`**
 Seems to tell the client that the server is done giving it initial data, and
 that it should begin its own precaching and loading process.
@@ -54,7 +120,7 @@ that it should begin its own precaching and loading process.
 <br>
 
 ## **Serverbound (C->S)**
-### **0x138A** - **Request Login**
+### **0x138A - `C_REQUEST_LOGIN`**
 Response to `S_START_STREAM` - contains username, password hash, and some
 extra (presumably telemetry related) data.
 
