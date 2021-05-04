@@ -11,7 +11,7 @@ defmodule Fauxpets.Protocol.Server.MyUserInfo do
       Fauxpets.Protocol.Util.encode_byte(51) <>
       Fauxpets.Protocol.Util.encode_byte(0) <>
       Fauxpets.Protocol.Util.encode_byte(1) <>
-      Fauxpets.Protocol.Util.encode_byte(0)
+      Fauxpets.Protocol.Util.encode_byte(1)
       ))
   end
 end

@@ -17,6 +17,18 @@ defmodule Fauxpets.Protocol.Util do
     <<byte::size(1)-unit(8)-unsigned-integer-little>>
   end
 
+  def encode_bool(bool) do
+    if bool do
+      <<1::size(1)-unit(8)-unsigned-integer-little>>
+    else
+      <<0::size(1)-unit(8)-unsigned-integer-little>>
+    end
+  end
+
+  def encode_float(float) do
+    <<float::size(4)-unit(8)-float-little>>
+  end
+
   def create_packet(id, data) do
     len = byte_size(data) + 2
 

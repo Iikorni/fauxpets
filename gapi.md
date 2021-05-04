@@ -34,7 +34,7 @@ Codes seem to be divided as follows:
 | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Code       | byte       | Login response code (see above)                                                                                                            |
 | UserID     | uint       | ID of user in database? **_Only sent on positive login response._**                                                                        |
-| UserName   | cstring    | Username? Seems to be used for some URL stuff, as it's url-encoded by the client upon receipt. **_Only sent on positive login response._** |
+| UserName   | cstring    | Username? Seems to be used for some URL stuff, as it's URL-encoded by the client upon receipt. **_Only sent on positive login response._** |
 
 <br>
 
@@ -50,7 +50,95 @@ Seems to tell the client that the connection is ready for the initial login hand
 
 <br>
 
-### **0x1Bd8 - `S_PIGGY_BANK`**
+### **0x1BCC - `S_INVENTORY_LIST`**
+Main inventory element descriptor lists.
+
+---
+
+| Field Name | Field Type | Notes                           |
+| ---------- | ---------- | ------------------------------- |
+| InvNo      | ushort     | Inventory number being adressed |
+| Len        | ushort     | Number of items                 |
+
+
+more to be detailed when i don't wanna pass out
+
+<br>
+
+### **0x1BCD - `S_INVENTORY_LIST_START`**
+Prompts the client to begin receiving a particular inventory list for an inventory described, presumably by `S_BOX_LIST`, although it's unclear what other places this goes.
+
+---
+
+| Field Name    | Field Type | Notes                           |
+| ------------- | ---------- | ------------------------------- |
+| InvNo         | ushort     | Inventory number being adressed |
+| MysteryString | cstring    | Unknown purpose.                |
+
+<br>
+
+
+### **0x1BD0 - `S_MY_PET_INFO`**
+Seems to be a no-op, with only a logger message being sent. No functionality seemingly implemented.
+
+---
+
+| Field Name | Field Type | Notes |
+| ---------- | ---------- | ----- |
+_(no fields)_
+
+<br>
+
+### **0x1BD1 - `S_MY_USER_INFO`**
+Seems to be a packet sent on the initial load - gives the client data about who is logging in, including their privilege level, "safe-mode", premium member status, and more.
+
+---
+
+| Field Name     | Field Type | Notes                                                                                    |
+| -------------- | ---------- | ---------------------------------------------------------------------------------------- |
+| AccountNo      | uint       | Account ID of the current user                                                           |
+| LangNo         | uint       | Language ID of the current user                                                          |
+| UserPhotoNo    | uint       | User photo ID of the current user                                                        |
+| PrivilegeLevel | byte       | Privilege level of the user. 0x51 ('3') is known to be "GM" status.                      |
+| IsSafeMode     | byte       | Safe mode status.                                                                        |
+| IsSubscriber   | bool       | Subscriber status                                                                        |
+| IsMSNUser      | byte       | Whether or not the user is an MSN user (controls whether or not you can obtain a panda!) |
+
+<br>
+
+### **0x1BD2 - `S_NOTICE`**
+Sends a chat-log "notice" that is, presumably, sent to all clients that receive the packet.
+
+---
+
+| Field Name | Field Type | Notes                                               |
+| ---------- | ---------- | --------------------------------------------------- |
+| Message?   | cstring    | Presumably a message to be displayed by the client. |
+
+
+### **0x1BD3 - `S_OPEN_TEXT`**
+Seems to be a no-op, with only a logger message being sent. No functionality seemingly implemented.
+
+---
+
+| Field Name | Field Type | Notes |
+| ---------- | ---------- | ----- |
+_(no fields)_
+
+<br>
+
+### **0x1BD5 - `S_PET_INFO`**
+Seems to be a no-op, with only a logger message being sent. No functionality seemingly implemented.
+
+---
+
+| Field Name | Field Type | Notes |
+| ---------- | ---------- | ----- |
+_(no fields)_
+
+<br>
+
+### **0x1BD8 - `S_PIGGY_BANK`**
 A packet describing a  user's "piggy bank," i.e. their collection of shells. It's unclear if this has any other use other than updating the current user's shells, but since there's no UserID field, this is highly unlikely.
 
 ---
@@ -87,7 +175,7 @@ The following field group is repeated `Len` times:
 <br>
 
 ### **0x1BFD - `S_BOX_LIST`**
-Seems to be a list of storage boxes for the current user. Doesn't really do much on its own, aside from set up the boxes in the inventory window (albeit useless w/o item slots, which are currently unable to be added?)
+Sets up a list of inventories (storage boxes) for the user. Each storage box is an inventory that is addressed w/ an `S_INVENTORY_LIST` packet pair.
 
 ---
 
@@ -97,10 +185,10 @@ Seems to be a list of storage boxes for the current user. Doesn't really do much
 
 The following field group is repeated `Len` times:
 
-| Field Name | Field Type | Notes                              |
-| ---------- | ---------- | ---------------------------------- |
-| Index?     | ushort     | Unknown value. Might be the index? |
-| BoxName    | cstring    | Name of the box.                   |
+| Field Name | Field Type | Notes                 |
+| ---------- | ---------- | --------------------- |
+| Index?     | ushort     | InvNo of the new box. |
+| BoxName    | cstring    | Name of the box.      |
 
 <br>
 
@@ -112,7 +200,7 @@ that it should begin its own precaching and loading process.
 
 | Field Name | Field Type | Notes |
 | ---------- | ---------- | ----- |
-(no fields)
+_(no fields)_
 
 <br>
 <br>
@@ -124,7 +212,7 @@ that it should begin its own precaching and loading process.
 Response to `S_START_STREAM` - contains username, password hash, and some
 extra (presumably telemetry related) data.
 
-Server should (assumably) return an `S_LOGIN`, as this is currently the only
+Server should (assumedly) return an `S_LOGIN`, as this is currently the only
 known packet that pushes along the process at this point.
 
 ---

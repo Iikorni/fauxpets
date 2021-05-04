@@ -44,6 +44,9 @@ defmodule Fauxpets.Protocol do
       0x14A0 ->
         {:ok, :client_information}
 
+      0x142A ->
+        {:ok, :open_gift}
+
       _ ->
         {:error, :unknown_packet_id, "0x" <> Integer.to_string(packet_id, 16)}
     end
@@ -74,6 +77,9 @@ defmodule Fauxpets.Protocol do
                 :ok = transport.close(socket)
             end
 
+          :open_gift ->
+            Fauxpets.Protocol.Server.FortuneCookieResult.send_packet(socket, transport, type: :green, gold: 0, pink: 0, green: 100, item: 0)
+
           :client_information ->
             [resp: resp] = Fauxpets.Protocol.Client.ClientInfo.handle_packet(rest)
 
@@ -84,6 +90,9 @@ defmodule Fauxpets.Protocol do
                   user = Fauxpets.ProtocolBucket.get_user(bucket)
                   Fauxpets.Protocol.Server.MyUserInfo.send_packet(socket, transport, user: user)
                   Fauxpets.Protocol.Server.BoxList.send_packet(socket, transport, box_list: [%{name: "Test Box"}])
+                  Fauxpets.Protocol.Server.InventoryListStart.send_packet(socket, transport, [inv_no: 0])
+                  Fauxpets.Protocol.Server.InventoryList.send_packet(socket, transport, [len: 1, inv_no: 0])
+                  Fauxpets.Protocol.Server.InventoryListEnd.send_packet(socket, transport, [])
                   Fauxpets.Protocol.Server.PiggyBank.send_packet(socket, transport,
                     gold: user.wallet.gold,
                     pink: user.wallet.pink,
@@ -126,7 +135,7 @@ defmodule Fauxpets.Protocol do
             :ok = transport.close(socket)
         end
       {:error, :unknown_packet_id, id} ->
-        Logger.error("Couldn't respond to packet #{id}...")
+        Logger.error("Couldn't respond to packet #{id}... (#{inspect(rest, binaries: :as_binaries)})")
     end
   end
 end

@@ -6,7 +6,7 @@ defmodule Fauxpets.Protocol.Server.BoxList do
     Logger.info("BoxList send (box_list: #{inspect(box_list)})")
     packet =
       Fauxpets.Protocol.Util.encode_short(length(box_list))
-    packet = append_box_to_list(packet, 1, box_list)
+    packet = append_box_to_list(packet, 0, box_list)
     transport.send(socket, Fauxpets.Protocol.Util.create_packet(0x1BFD, packet))
   end
 

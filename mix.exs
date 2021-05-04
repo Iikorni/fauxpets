@@ -24,7 +24,8 @@ defmodule Fauxpets.MixProject do
     [
       {:ranch, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
-      {:postgrex, ">= 0.0.0"}
+      {:postgrex, ">= 0.0.0"},
+      {:remix, "~> 0.0.1", only: :dev}
     ]
   end
 end
