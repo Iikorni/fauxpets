@@ -15,7 +15,7 @@ defmodule Fauxpets.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Fauxpets, []}
+      mod: {Fauxpets.Application, []}
     ]
   end
 
@@ -25,6 +25,7 @@ defmodule Fauxpets.MixProject do
       {:ranch, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
+      {:tzdata, "~> 1.1"},
       {:remix, "~> 0.0.1", only: :dev}
     ]
   end

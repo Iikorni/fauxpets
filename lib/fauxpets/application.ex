@@ -1,4 +1,4 @@
-defmodule Fauxpets do
+defmodule Fauxpets.Application do
   use Application
   def start(_args, _opts) do
     children = [

@@ -1,4 +1,6 @@
 defmodule Fauxpets.Protocol.Util do
+  require Logger
+
   def encode_string(str) do
     str = str <> <<0>>
     len = byte_size(str)
@@ -37,9 +39,20 @@ defmodule Fauxpets.Protocol.Util do
   end
 
   def pop_string(data) do
-    <<sz::binary-size(2), rest::binary>> = data
-    size = :binary.decode_unsigned(sz, :little) - 1
+    {:ok, size, rest} = pop_short(data)
+    Logger.info("Size of string: #{size}")
+    size = size - 1
     <<string::binary-size(size), 0::size(1)-unit(8), rest::binary>> = rest
     {:ok, string, rest}
+  end
+
+  def pop_short(data) do
+    <<short::size(2)-unit(8)-unsigned-integer-little, rest::binary>> = data
+    {:ok, short, rest}
+  end
+
+  def pop_int(data) do
+    <<int::size(4)-unit(8)-unsigned-integer-little, rest::binary>> = data
+    {:ok, int, rest}
   end
 end

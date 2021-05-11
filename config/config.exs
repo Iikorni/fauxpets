@@ -8,3 +8,8 @@ config :fauxpets, Fauxpets.Repo,
 
 config :fauxpets,
   ecto_repos: [Fauxpets.Repo]
+
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
+config :logger,
+  level: :info
