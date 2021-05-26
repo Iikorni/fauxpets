@@ -18,7 +18,7 @@ defmodule Fauxpets.Protocol.Server.GV.DesktopInfo do
       Fauxpets.Protocol.Util.encode_int(5001) <>
       Fauxpets.Protocol.Util.encode_int(0) <> # X
       Fauxpets.Protocol.Util.encode_int(0) <> # Y
-      Fauxpets.Protocol.Util.encode_int(0) <>
+      Fauxpets.Protocol.Util.encode_int(5) <>
       Fauxpets.Protocol.Util.encode_byte(0) <> # Is Sale Land?
       Fauxpets.Protocol.Util.encode_int(213554))) # Owner Photo No?
   end

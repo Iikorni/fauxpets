@@ -40,10 +40,14 @@ defmodule Fauxpets.Protocol.Util do
 
   def pop_string(data) do
     {:ok, size, rest} = pop_short(data)
-    Logger.info("Size of string: #{size}")
     size = size - 1
     <<string::binary-size(size), 0::size(1)-unit(8), rest::binary>> = rest
     {:ok, string, rest}
+  end
+
+  def pop_byte(data) do
+    <<byte::size(1)-unit(8), rest::binary>> = data
+    {:ok, byte, rest}
   end
 
   def pop_short(data) do

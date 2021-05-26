@@ -19,7 +19,7 @@ defmodule Fauxpets.Protocol do
   end
 
   def loop(socket, transport, bucket) do
-    case transport.recv(socket, 0, 60000) do
+    case transport.recv(socket, 0, 60000 * 5) do
       {:ok, data} ->
         parser(data, socket, transport, bucket)
         loop(socket, transport, bucket)
@@ -27,6 +27,54 @@ defmodule Fauxpets.Protocol do
       _ ->
         Logger.info("closing client connection...")
         :ok = transport.close(socket)
+    end
+  end
+
+  defp send_login_data(socket, transport, bucket) do
+    if Fauxpets.ProtocolBucket.is_logged_in(bucket) do
+      Logger.info("Sending user data!")
+
+      user = Fauxpets.ProtocolBucket.get_user(bucket)
+      Fauxpets.Protocol.Server.MyUserInfo.send_packet(socket, transport, user: user)
+
+      Fauxpets.Protocol.Server.Level.send_packet(socket, transport, level: 10, exp: 100)
+
+      Fauxpets.Protocol.Server.FriendList.send_packet(socket, transport,
+        user: user,
+        friend_list: [[id: 0x69, type: :admin], [id: 0x79, type: :admin]]
+      )
+
+      Fauxpets.Protocol.Server.SentRingList.send_packet(socket, transport, sent_ring_list: [2])
+
+      Fauxpets.Protocol.Server.BlockUserList.send_packet(socket, transport, block_list: [])
+
+      Fauxpets.Protocol.Server.BoxList.send_packet(socket, transport, box_list: user.boxes)
+
+      Fauxpets.Protocol.Server.InventoryList.send_packet(socket, transport,
+        inv_no: 0,
+        box: Enum.at(user.boxes, 0)
+      )
+
+      Fauxpets.Protocol.Server.PiggyBank.send_packet(socket, transport,
+        gold: user.wallet.gold,
+        pink: user.wallet.pink,
+        green: user.wallet.green,
+        prize: user.wallet.prize
+      )
+
+      Fauxpets.Protocol.Server.PetList.send_packet(socket, transport,
+        user_id: user.id,
+        pet_list: [%{id: 1, name: "Dipshit", portrait_no: 1, index: 1}]
+      )
+
+      Fauxpets.Protocol.Server.GV.LoginClient.send_packet(socket, transport, [])
+      Fauxpets.Protocol.Server.GV.DesktopInfo.send_packet(socket, transport, [])
+      Fauxpets.Protocol.Server.SettingItem.send_packet(socket, transport, type: :desktop)
+      # Fauxpets.Protocol.Server.GV.Member.send_packet(socket, transport, member_list: [])
+
+      Fauxpets.Protocol.Server.LoadEnd.send_packet(socket, transport, [])
+    else
+      Logger.error("Tried to call client login procession w/o login")
     end
   end
 
@@ -61,6 +109,7 @@ defmodule Fauxpets.Protocol do
             case login_response do
               {:ok, user} ->
                 Fauxpets.ProtocolBucket.login(bucket, user)
+                send_login_data(socket, transport, bucket)
 
               {:error, _} ->
                 :ok = transport.close(socket)
@@ -81,63 +130,33 @@ defmodule Fauxpets.Protocol do
             [resp: resp] = Fauxpets.Protocol.Client.ClientInfo.handle_packet(rest)
 
             case resp do
-              {:ok, :client_login_ok} ->
-                if Fauxpets.ProtocolBucket.is_logged_in(bucket) do
-                  Logger.info("Sending user data!")
+              {:ok, type} ->
+                Logger.info("Client wrote a log entry: '#{inspect(type)}'")
 
-                  user = Fauxpets.ProtocolBucket.get_user(bucket)
-                  Fauxpets.Protocol.Server.MyUserInfo.send_packet(socket, transport, user: user)
-
-                  Fauxpets.Protocol.Server.Level.send_packet(socket, transport, level: 10, exp: 100)
-
-                  Fauxpets.Protocol.Server.BlockUserList.send_packet(socket, transport, block_list: [])
-
-                  Fauxpets.Protocol.Server.BoxList.send_packet(socket, transport,
-                    box_list: user.boxes
-                  )
-
-                  Fauxpets.Protocol.Server.InventoryList.send_packet(socket, transport, [inv_no: 0, box: Enum.at(user.boxes, 0)])
-
-                  Fauxpets.Protocol.Server.PiggyBank.send_packet(socket, transport,
-                    gold: user.wallet.gold,
-                    pink: user.wallet.pink,
-                    green: user.wallet.green,
-                    prize: user.wallet.prize
-                  )
-
-                  Fauxpets.Protocol.Server.PetList.send_packet(socket, transport,
-                   user_id: user.id,
-                   pet_list: [%{id: 1, name: "Dipshit", portrait_no: 1, index: 1}]
-                  )
-
-                  Fauxpets.Protocol.Server.GV.DesktopInfo.send_packet(socket, transport, [])
-                  #Fauxpets.Protocol.Server.GV.Member.send_packet(socket, transport, member_list: [])
-
-                  Fauxpets.Protocol.Server.LoadEnd.send_packet(socket, transport, [])
-                else
-                  Logger.error("Tried to call client login procession w/o login")
-                end
-
-              _ ->
-                nil
+              {:error, :unknown_code, data} ->
+                Logger.error(
+                  "Unknown client information code - data is '#{
+                    inspect(data, binaries: :as_binaries)
+                  }'"
+                )
             end
 
-          :client_interaction ->
-            <<id::size(2)-unit(8)-unsigned-integer-little, rest::binary>> = rest
-            id_str = Integer.to_string(id, 16)
+          :client_log_gui ->
+            [resp: [type: type, data: data]] = Fauxpets.Protocol.Client.LogGUI.handle_packet(rest)
 
-            cond do
-              id >= 0x6D60 && id <= 0x6D6B ->
-                Logger.info("Loading phase #{id - 0x6D60}")
-
-              id >= 0x6F54 && id <= 0x6F5F ->
-                Logger.warning("Probably don't have a petlist?")
-
-              true ->
+            case type do
+              {:ok, evt} ->
                 Logger.info(
-                  "Received client interaction (id: 0x#{id_str} #{
-                    inspect(rest, binaries: :as_binaries)
-                  })"
+                  "Client logged GUI event '#{inspect(evt)}' #{
+                    if data != <<>>, do: inspect(data, binaries: :as_binaries)
+                  }"
+                )
+
+              {:error, [unknown_type: evt]} ->
+                Logger.info(
+                  "Client logged unknown GUI event! '#{inspect(evt)}' #{
+                    if data != <<>>, do: inspect(data, binaries: :as_binaries)
+                  }"
                 )
             end
 
@@ -145,6 +164,19 @@ defmodule Fauxpets.Protocol do
             Fauxpets.Protocol.Client.Disconnect.handle_packet(rest)
 
             :ok = transport.close(socket)
+
+          :client_request_user ->
+            [resp: [name: name]] = Fauxpets.Protocol.Client.RequestUser.handle_packet(rest)
+
+            Logger.info("Client wants information for the user '#{name}'")
+
+          :create_pet ->
+            Fauxpets.Protocol.Client.CreatePet.handle_packet(rest)
+
+          :lang_no ->
+            [resp: {:ok, lang}] = Fauxpets.Protocol.Client.LangNo.handle_packet(rest)
+
+            Logger.info("Client reports language '#{Fauxpets.Protocol.Client.LangNo.lang_to_str(lang)}'")
 
           _ ->
             Logger.error(

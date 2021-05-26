@@ -14,8 +14,9 @@ defmodule Fauxpets.Protocol.Server.SettingItem do
   def send_packet(socket, transport, type: type) do
     Logger.info("SettingItem send... (type: #{type})")
     transport.send(socket, Fauxpets.Protocol.Util.create_packet(0x1C11,
+      Fauxpets.Protocol.Util.encode_int(7100001) <>
       Fauxpets.Protocol.Util.encode_short(type_to_short(type)) <>
       Fauxpets.Protocol.Util.encode_short(1) <>
-      Fauxpets.Protocol.Util.encode_int(7100016)))
+      Fauxpets.Protocol.Util.encode_int(7100001)))
   end
 end

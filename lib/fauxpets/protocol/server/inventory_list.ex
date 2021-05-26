@@ -13,14 +13,14 @@ defmodule Fauxpets.Protocol.Server.InventoryList do
       Fauxpets.Protocol.Util.encode_short(stack.slot_index) <> # SLOT NUMBER (0 indexed?)
       Fauxpets.Protocol.Util.encode_byte(3) <>
 
-      Fauxpets.Protocol.Util.encode_int(4) <>
+      Fauxpets.Protocol.Util.encode_int(0) <>
       Fauxpets.Protocol.Util.encode_byte(0) <> # Used?
       Fauxpets.Protocol.Util.encode_int(stack.quantity) <> # QTY
       Fauxpets.Protocol.Util.encode_short(0) <>
       Fauxpets.Protocol.Util.encode_bool(false) <> # New Item?
       Fauxpets.Protocol.Util.encode_int(stack.item.id) <> # Item ID
       Fauxpets.Protocol.Util.encode_short(Fauxpets.Item.reaction_to_short(stack.item.reaction)) <> # Reaction
-      Fauxpets.Protocol.Util.encode_int(0) <>
+      Fauxpets.Protocol.Util.encode_int(0) <> # Meter Int?
       Fauxpets.Protocol.Util.encode_short(0) <>  # MOVEMENT
       # g_Define.MOVEMENT_OBJ_FOOD                                     = 0
 # g_Define.MOVEMENT_OBJ_BALL                                     = 1
@@ -87,11 +87,11 @@ defmodule Fauxpets.Protocol.Server.InventoryList do
       Fauxpets.Protocol.Util.encode_bool(false) <>
       Fauxpets.Protocol.Util.encode_string("") <> # Breed Field? Weird
       Fauxpets.Protocol.Util.encode_float(1.0) <>
-      Fauxpets.Protocol.Util.encode_float(2.0) <>
-      Fauxpets.Protocol.Util.encode_float(3.0) <>
-      Fauxpets.Protocol.Util.encode_float(4.0) <>
-      Fauxpets.Protocol.Util.encode_float(5.0) <>
-      Fauxpets.Protocol.Util.encode_string(stack.item.name) <>
+      Fauxpets.Protocol.Util.encode_float(1.0) <>
+      Fauxpets.Protocol.Util.encode_float(1.0) <>
+      Fauxpets.Protocol.Util.encode_float(1.0) <>
+      Fauxpets.Protocol.Util.encode_float(1.0) <>
+      Fauxpets.Protocol.Util.encode_string(stack.item.name) <> # Item Name
       Fauxpets.Protocol.Util.encode_string("test3") <>
       Fauxpets.Protocol.Util.encode_bool(false) <> # Customizable?
       Fauxpets.Protocol.Util.encode_int(0) <>
@@ -104,9 +104,9 @@ defmodule Fauxpets.Protocol.Server.InventoryList do
       Fauxpets.Protocol.Util.encode_int(stack.item.karma) <> # Karma
       Fauxpets.Protocol.Util.encode_int(stack.item.buff_time) <> # Buff Time?
       Fauxpets.Protocol.Util.encode_byte(0) <> # Quest?
-      Fauxpets.Protocol.Util.encode_float(0.0) <>
-      Fauxpets.Protocol.Util.encode_float(0.0) <>
-      Fauxpets.Protocol.Util.encode_float(0.0)
+      Fauxpets.Protocol.Util.encode_float(1.0) <>
+      Fauxpets.Protocol.Util.encode_float(1.0) <>
+      Fauxpets.Protocol.Util.encode_float(1.0)
 
       append_stacks(packet, tail)
   end
