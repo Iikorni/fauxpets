@@ -8,7 +8,7 @@ defmodule Fauxpets.Protocol.Server.PetList do
     packet =
       Fauxpets.Protocol.Util.encode_int(user_id) <>
       Fauxpets.Protocol.Util.encode_short(length(pet_list)) <>
-      <<0>>
+      Fauxpets.Protocol.Util.encode_byte(1)
     packet = append_pet_to_list(packet, 1, pet_list)
     transport.send(socket, Fauxpets.Protocol.Util.create_packet(0x1BF7, packet))
   end

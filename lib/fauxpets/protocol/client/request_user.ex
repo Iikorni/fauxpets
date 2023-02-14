@@ -3,8 +3,15 @@ defmodule Fauxpets.Protocol.Client.RequestUser do
   require Logger
 
   @impl true
-  def handle_packet(data) do
+  def parse_packet(data) do
     {:ok, name, _rest} = Fauxpets.Protocol.Util.pop_string(data)
-    [resp: [name: name]]
+    [name: name]
+  end
+
+  @impl true
+  def handle_packet(_socket, _transport, _conn_state, [name: name]) do
+    Logger.info("Client wants information for the user '#{name}'")
+
+    # TODO: Do something with this
   end
 end

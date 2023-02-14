@@ -22,54 +22,65 @@ defmodule Fauxpets.Protocol.Client.LangNo do
   end
 
   @impl true
-  def handle_packet(data) do
+  def parse_packet(data) do
     <<id::size(4)-unit(8)-unsigned-integer-little, _rest::binary>> = data
 
-    case id do
+    resp = case id do
       1 ->
-        [resp: {:ok, :lang_ko}]
+        {:ok, :lang_ko}
 
       2 ->
-        [resp: {:ok, :lang_en}]
+        {:ok, :lang_en}
 
       3 ->
-        [resp: {:ok, :lang_zh}]
+        {:ok, :lang_zh}
 
       4 ->
-        [resp: {:ok, :lang_ja}]
+        {:ok, :lang_ja}
 
       5 ->
-        [resp: {:ok, :lang_zh_cn}]
+        {:ok, :lang_zh_cn}
 
       6 ->
-        [resp: {:ok, :lang_th}]
+        {:ok, :lang_th}
 
       7 ->
-        [resp: {:ok, :lang_en_ph}]
+        {:ok, :lang_en_ph}
 
       8 ->
-        [resp: {:ok, :lang_fr}]
+        {:ok, :lang_fr}
 
       9 ->
-        [resp: {:ok, :lang_de}]
+        {:ok, :lang_de}
 
       10 ->
-        [resp: {:ok, :lang_es}]
+        {:ok, :lang_es}
 
       11 ->
-        [resp: {:ok, :lang_it}]
+        {:ok, :lang_it}
 
       12 ->
-        [resp: {:ok, :lang_pt}]
+        {:ok, :lang_pt}
 
       13 ->
-        [resp: {:ok, :lang_nl}]
+        {:ok, :lang_nl}
 
       14 ->
-        [resp: {:ok, :lang_dan}]
+        {:ok, :lang_dan}
 
       _ ->
-        [resp: {:error, :unknown_code, data}]
+        {:error, :unknown_code, data}
     end
+    [lang: resp]
+  end
+
+  @impl true
+  def handle_packet(_socket, _transport, _conn_state, [lang: {:ok, lang}]) do
+    Logger.info("Client reports language '#{Fauxpets.Protocol.Client.LangNo.lang_to_str(lang)}'")
+  end
+
+  @impl true
+  def handle_packet(_socket, _transport, _conn_state, [lang: {:error, :unknown_code, data}]) do
+    Logger.info("Client reports unknown language with data '#{inspect(data, binaries: :as_binaries)}'")
   end
 end

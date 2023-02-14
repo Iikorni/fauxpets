@@ -195,6 +195,23 @@ The following field group is repeated `Len` times:
 
 <br>
 
+### **0x1c3c - `S_ADMIN_LIST`
+TODO: Unknown. Likely propogates a list of admin usrs?
+
+---
+
+| Field Name | Field Type | Notes                                 |
+| ---------- | ---------- | ------------------------------------- |
+| Len        | ushort     | Number of users in the following list |
+
+
+The following field group is repeated `Len` times:
+
+| Field Name  | Field Type | Notes                 |
+| ----------- | ---------- | --------------------- |
+| User ID     | ushort     | User ID of an admin   |
+
+
 ### **0x1C5D - `S_SEND_FRIENDSHIP_RING`**
 Responds to an attempt to send a friendship ring to someone on your friends list.
 
@@ -257,6 +274,17 @@ known packet that pushes along the process at this point.
 | IsAroundRand | byte       | Unknown function                                                                                      |
 
 <br>
+
+### **0x13FF - `C_REQUEST_INVENTORY`**
+
+Requests the contents of the specified inventory number.
+
+---
+
+| Field Name | Field Type | Notes                       |
+| ---------- | ---------- | --------------------------- |
+| Inv. No    | short      | ID of request inventory     |
+
 
 ### **0x141C - `C_REQUEST_USER`**
 
@@ -621,3 +649,4 @@ I'm not sure if this is ever sent legitimately, but it seems to tell the server 
 * 0x149E (quest language [just sends the gui lang no.])
 * 0x13f3 (call my pet - one unknown integer argument)
 * 0x141B (requests a users_list?)
+* 0x1c70 (buy land)

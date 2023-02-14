@@ -19,14 +19,20 @@ defmodule Fauxpets.MixProject do
     ]
   end
 
+  def model_path(from_git?) do
+    if from_git? do
+      {:fauxpets_model, git: "https://github.com/iikorni/fauxpets_model"}
+    else
+      {:fauxpets_model, path: "../fauxpets_model"}
+    end
+  end
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:ranch, "~> 2.0"},
-      {:ecto_sql, "~> 3.0"},
-      {:postgrex, ">= 0.0.0"},
-      {:tzdata, "~> 1.1"},
-      {:remix, "~> 0.0.1", only: :dev}
+      {:remix, "~> 0.0.1", only: :dev},
+      model_path(false)
     ]
   end
 end

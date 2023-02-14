@@ -1,4 +1,3 @@
-
 defmodule Fauxpets.Protocol.Client.LogGUI do
   @behaviour Fauxpets.Protocol.ClientPacket
   require Logger
@@ -7,371 +6,567 @@ defmodule Fauxpets.Protocol.Client.LogGUI do
     case id do
       0 ->
         {:ok, :piano}
+
       1 ->
-          {:ok, :map}
+        {:ok, :map}
+
       2 ->
-          {:ok, :giftbox}
+        {:ok, :giftbox}
+
       3 ->
-          {:ok, :deliverybox}
+        {:ok, :deliverybox}
+
       4 ->
-          {:ok, :piggybank}
+        {:ok, :piggybank}
+
       5 ->
-          {:ok, :texturecontrol}
+        {:ok, :texturecontrol}
+
       6 ->
-          {:ok, :changepet}
+        {:ok, :changepet}
+
       100 ->
-          {:ok, :pet_namepanel}
+        {:ok, :pet_namepanel}
+
       101 ->
-          {:ok, :pet_traveljournal}
+        {:ok, :pet_traveljournal}
+
       102 ->
-          {:ok, :pet_goaway}
+        {:ok, :pet_goaway}
+
       103 ->
-          {:ok, :pet_petsblog}
+        {:ok, :pet_petsblog}
+
       104 ->
-          {:ok, :pet_ownersblog}
+        {:ok, :pet_ownersblog}
+
       105 ->
-          {:ok, :pet_ownersprofile}
+        {:ok, :pet_ownersprofile}
+
       106 ->
-          {:ok, :pet_ownerssendiku}
+        {:ok, :pet_ownerssendiku}
+
       107 ->
-          {:ok, :pet_ownersim}
+        {:ok, :pet_ownersim}
+
       108 ->
-          {:ok, :pet_status}
+        {:ok, :pet_status}
+
       109 ->
-          {:ok, :pet_senddeliverygift}
+        {:ok, :pet_senddeliverygift}
+
       110 ->
-          {:ok, :pet_callmypet}
+        {:ok, :pet_callmypet}
+
       111 ->
-          {:ok, :pet_blockuser}
+        {:ok, :pet_blockuser}
+
       112 ->
-          {:ok, :pet_wanderingcontrol}
+        {:ok, :pet_wanderingcontrol}
+
       113 ->
-          {:ok, :pet_deletepet}
+        {:ok, :pet_deletepet}
+
       200 ->
-          {:ok, :main_viewuserprofile}
+        {:ok, :main_viewuserprofile}
+
       201 ->
-          {:ok, :main_viewpetprofile}
+        {:ok, :main_viewpetprofile}
+
       202 ->
-          {:ok, :main_viewfriend}
+        {:ok, :main_viewfriend}
+
       203 ->
-          {:ok, :main_viewmsgpalette}
+        {:ok, :main_viewmsgpalette}
+
       204 ->
-          {:ok, :main_viewgame}
+        {:ok, :main_viewgame}
+
       205 ->
-          {:ok, :main_viewwhatsnew}
+        {:ok, :main_viewwhatsnew}
+
       206 ->
-          {:ok, :main_viewinventory}
+        {:ok, :main_viewinventory}
+
       207 ->
-          {:ok, :main_viewstore}
+        {:ok, :main_viewstore}
+
       208 ->
-          {:ok, :main_viewwww}
+        {:ok, :main_viewwww}
+
       209 ->
-          {:ok, :main_viewwebhelp}
+        {:ok, :main_viewwebhelp}
+
       210 ->
-          {:ok, :main_help}
+        {:ok, :main_help}
+
       211 ->
-          {:ok, :main_close}
+        {:ok, :main_close}
+
       212 ->
-          {:ok, :main_mini}
+        {:ok, :main_mini}
+
       213 ->
-          {:ok, :main_exit}
+        {:ok, :main_exit}
+
       214 ->
-          {:ok, :main_option}
+        {:ok, :main_option}
+
       215 ->
-          {:ok, :main_petportraitslot1}
+        {:ok, :main_petportraitslot1}
+
       216 ->
-          {:ok, :main_petportraitslot2}
+        {:ok, :main_petportraitslot2}
+
       217 ->
-          {:ok, :main_petportraitslot3}
+        {:ok, :main_petportraitslot3}
+
       218 ->
-          {:ok, :main_petportraitslot4}
+        {:ok, :main_petportraitslot4}
+
       219 ->
-          {:ok, :main_viewemail}
+        {:ok, :main_viewemail}
+
       220 ->
-          {:ok, :main_viewbaduser}
+        {:ok, :main_viewbaduser}
+
       300 ->
-          {:ok, :cmd_callmypet}
+        {:ok, :cmd_callmypet}
+
       301 ->
-          {:ok, :cmd_makeplaypen}
+        {:ok, :cmd_makeplaypen}
+
       302 ->
-          {:ok, :cmd_removeplaypen}
+        {:ok, :cmd_removeplaypen}
+
       303 ->
-          {:ok, :cmd_option}
+        {:ok, :cmd_option}
+
       400 ->
-          {:ok, :frd_im}
+        {:ok, :frd_im}
+
       401 ->
-          {:ok, :frd_sendpet}
+        {:ok, :frd_sendpet}
+
       402 ->
-          {:ok, :frd_sendmessage}
+        {:ok, :frd_sendmessage}
+
       403 ->
-          {:ok, :frd_showfriend}
+        {:ok, :frd_showfriend}
+
       404 ->
-          {:ok, :frd_toggleview}
+        {:ok, :frd_toggleview}
+
       405 ->
-          {:ok, :frd_showprofile}
+        {:ok, :frd_showprofile}
+
       406 ->
-          {:ok, :frd_showblog}
+        {:ok, :frd_showblog}
+
       407 ->
-          {:ok, :frd_privous}
+        {:ok, :frd_privous}
+
       408 ->
-          {:ok, :frd_next}
+        {:ok, :frd_next}
+
       409 ->
-          {:ok, :frd_help}
+        {:ok, :frd_help}
+
       410 ->
-          {:ok, :frd_addasfriend}
+        {:ok, :frd_addasfriend}
+
       411 ->
-          {:ok, :frd_addtoblocklist}
+        {:ok, :frd_addtoblocklist}
+
       412 ->
-          {:ok, :frd_showblocklist}
+        {:ok, :frd_showblocklist}
+
       500 ->
-          {:ok, :plt_createmsg}
+        {:ok, :plt_createmsg}
+
       501 ->
-          {:ok, :plt_addwordorpic}
+        {:ok, :plt_addwordorpic}
+
       502 ->
-          {:ok, :plt_inbox}
+        {:ok, :plt_inbox}
+
       503 ->
-          {:ok, :plt_outbox}
+        {:ok, :plt_outbox}
+
       504 ->
-          {:ok, :plt_favorite}
+        {:ok, :plt_favorite}
+
       505 ->
-          {:ok, :plt_privous}
+        {:ok, :plt_privous}
+
       506 ->
-          {:ok, :plt_next}
+        {:ok, :plt_next}
+
       507 ->
-          {:ok, :plt_search}
+        {:ok, :plt_search}
+
       508 ->
-          {:ok, :plt_help}
+        {:ok, :plt_help}
+
       509 ->
-          {:ok, :plt_showblog}
+        {:ok, :plt_showblog}
+
       510 ->
-          {:ok, :plt_im}
+        {:ok, :plt_im}
+
       511 ->
-          {:ok, :plt_addasfriend}
+        {:ok, :plt_addasfriend}
+
       512 ->
-          {:ok, :plt_showprofile}
+        {:ok, :plt_showprofile}
+
       513 ->
-          {:ok, :plt_addtoblocklist}
+        {:ok, :plt_addtoblocklist}
+
       600 ->
-          {:ok, :mbox_read}
+        {:ok, :mbox_read}
+
       601 ->
-          {:ok, :mbox_delete}
+        {:ok, :mbox_delete}
+
       602 ->
-          {:ok, :mbox_palette}
+        {:ok, :mbox_palette}
+
       603 ->
-          {:ok, :mbox_inbox}
+        {:ok, :mbox_inbox}
+
       604 ->
-          {:ok, :mbox_outbox}
+        {:ok, :mbox_outbox}
+
       605 ->
-          {:ok, :mbox_favorite}
+        {:ok, :mbox_favorite}
+
       606 ->
-          {:ok, :mbox_help}
+        {:ok, :mbox_help}
+
       607 ->
-          {:ok, :mbox_addfavorite}
+        {:ok, :mbox_addfavorite}
+
       608 ->
-          {:ok, :mbox_deleteall}
+        {:ok, :mbox_deleteall}
+
       700 ->
-          {:ok, :mat_sendto}
+        {:ok, :mat_sendto}
+
       701 ->
-          {:ok, :mat_send}
+        {:ok, :mat_send}
+
       702 ->
-          {:ok, :mat_deleteiku}
+        {:ok, :mat_deleteiku}
+
       703 ->
-          {:ok, :mat_cancel}
+        {:ok, :mat_cancel}
+
       704 ->
-          {:ok, :mat_help}
+        {:ok, :mat_help}
+
       705 ->
-          {:ok, :mat_viewuserprofile}
+        {:ok, :mat_viewuserprofile}
+
       800 ->
-          {:ok, :inv_recycle}
+        {:ok, :inv_recycle}
+
       801 ->
-          {:ok, :inv_help}
+        {:ok, :inv_help}
+
       802 ->
-          {:ok, :inv_viewpetinventory}
+        {:ok, :inv_viewpetinventory}
+
       803 ->
-          {:ok, :inv_newinventory}
+        {:ok, :inv_newinventory}
+
       804 ->
-          {:ok, :inv_mystore}
+        {:ok, :inv_mystore}
+
       805 ->
-          {:ok, :inv_sendgift}
+        {:ok, :inv_sendgift}
+
       900 ->
-          {:ok, :map_travelhistory}
+        {:ok, :map_travelhistory}
+
       901 ->
-          {:ok, :map_counttravel}
+        {:ok, :map_counttravel}
+
       902 ->
-          {:ok, :map_countusers}
+        {:ok, :map_countusers}
+
       903 ->
-          {:ok, :map_help}
+        {:ok, :map_help}
+
       1000 ->
-          {:ok, :txt_viewcontrol}
+        {:ok, :txt_viewcontrol}
+
       1001 ->
-          {:ok, :txt_morecontrol}
+        {:ok, :txt_morecontrol}
+
       1002 ->
-          {:ok, :txt_prevouscontrol}
+        {:ok, :txt_prevouscontrol}
+
       1003 ->
-          {:ok, :txt_help}
+        {:ok, :txt_help}
+
       1100 ->
-          {:ok, :changepet_left}
+        {:ok, :changepet_left}
+
       1101 ->
-          {:ok, :changepet_right}
+        {:ok, :changepet_right}
+
       1102 ->
-          {:ok, :changepet_help}
+        {:ok, :changepet_help}
+
       1200 ->
-          {:ok, :wrapgift_help}
+        {:ok, :wrapgift_help}
+
       1201 ->
-          {:ok, :wrapgift_goshop}
+        {:ok, :wrapgift_goshop}
+
       1202 ->
-          {:ok, :wrapgift_ok}
+        {:ok, :wrapgift_ok}
+
       1203 ->
-          {:ok, :wrapgift_cancel}
+        {:ok, :wrapgift_cancel}
+
       1300 ->
-          {:ok, :gotgift_help}
+        {:ok, :gotgift_help}
+
       1301 ->
-          {:ok, :gotgift_ok}
+        {:ok, :gotgift_ok}
+
       1302 ->
-          {:ok, :gotgift_cancel}
+        {:ok, :gotgift_cancel}
+
       1400 ->
-          {:ok, :addpic_help}
+        {:ok, :addpic_help}
+
       1401 ->
-          {:ok, :addpic_browse}
+        {:ok, :addpic_browse}
+
       1402 ->
-          {:ok, :addpic_language}
+        {:ok, :addpic_language}
+
       1500 ->
-          {:ok, :option_help}
+        {:ok, :option_help}
+
       1501 ->
-          {:ok, :option_hideobj}
+        {:ok, :option_hideobj}
+
       1502 ->
-          {:ok, :option_mute}
+        {:ok, :option_mute}
+
       1503 ->
-          {:ok, :option_playpen}
+        {:ok, :option_playpen}
+
       1504 ->
-          {:ok, :option_ok}
+        {:ok, :option_ok}
+
       1505 ->
-          {:ok, :option_language}
+        {:ok, :option_language}
+
       1506 ->
-          {:ok, :option_petnum}
+        {:ok, :option_petnum}
+
       1507 ->
-          {:ok, :option_visitmode}
+        {:ok, :option_visitmode}
+
       1508 ->
-          {:ok, :option_sendtobg}
+        {:ok, :option_sendtobg}
+
       1509 ->
-          {:ok, :option_staymode}
+        {:ok, :option_staymode}
+
       1510 ->
-          {:ok, :option_aroundland}
+        {:ok, :option_aroundland}
+
       1511 ->
-          {:ok, :option_shownameplate}
+        {:ok, :option_shownameplate}
+
       1512 ->
-          {:ok, :option_windowmode}
+        {:ok, :option_windowmode}
+
       1513 ->
-          {:ok, :option_close}
+        {:ok, :option_close}
+
       1600 ->
-          {:ok, :petinv_close}
+        {:ok, :petinv_close}
+
       1601 ->
-          {:ok, :petinv_help}
+        {:ok, :petinv_help}
+
       1602 ->
-          {:ok, :petinv_detach}
+        {:ok, :petinv_detach}
+
       1603 ->
-          {:ok, :petinv_inventory}
+        {:ok, :petinv_inventory}
+
       1700 ->
-          {:ok, :add_help}
+        {:ok, :add_help}
+
       1701 ->
-          {:ok, :add_privous}
+        {:ok, :add_privous}
+
       1800 ->
-          {:ok, :mystore_help}
+        {:ok, :mystore_help}
+
       1801 ->
-          {:ok, :mystore_status}
+        {:ok, :mystore_status}
+
       1802 ->
-          {:ok, :mystroe_sell}
+        {:ok, :mystroe_sell}
+
       1900 ->
-          {:ok, :petstatus_help}
+        {:ok, :petstatus_help}
+
       2000 ->
-          {:ok, :solid_help}
+        {:ok, :solid_help}
+
       2001 ->
-          {:ok, :solid_detach}
+        {:ok, :solid_detach}
+
       2100 ->
-          {:ok, :usercreateitem_help}
+        {:ok, :usercreateitem_help}
+
       2200 ->
-          {:ok, :userattach_picture}
+        {:ok, :userattach_picture}
+
       2201 ->
-          {:ok, :userattach_extract}
+        {:ok, :userattach_extract}
+
       2202 ->
-          {:ok, :userattach_browse}
+        {:ok, :userattach_browse}
+
       2203 ->
-          {:ok, :userattach_upload}
+        {:ok, :userattach_upload}
+
       2204 ->
-          {:ok, :userattach_camera}
+        {:ok, :userattach_camera}
+
       2300 ->
-          {:ok, :usernameplate_extract}
+        {:ok, :usernameplate_extract}
+
       2301 ->
-          {:ok, :usernameplate_browse}
+        {:ok, :usernameplate_browse}
+
       2302 ->
-          {:ok, :usernameplate_upload}
+        {:ok, :usernameplate_upload}
+
       2400 ->
-          {:ok, :breed_converting_help}
+        {:ok, :breed_converting_help}
+
       2401 ->
-          {:ok, :breed_converting_close}
+        {:ok, :breed_converting_close}
+
       2402 ->
-          {:ok, :breed_converting_mini}
+        {:ok, :breed_converting_mini}
+
       2500 ->
-          {:ok, :quantity_close}
+        {:ok, :quantity_close}
+
       2600 ->
-          {:ok, :quest_dlg}
+        {:ok, :quest_dlg}
+
       2601 ->
-          {:ok, :quest_accept}
+        {:ok, :quest_accept}
+
       2602 ->
-          {:ok, :quest_complete}
+        {:ok, :quest_complete}
+
       2700 ->
-          {:ok, :petcreation_rotatepet}
+        {:ok, :petcreation_rotatepet}
+
       2701 ->
-          {:ok, :petcreation_petgroup}
+        {:ok, :petcreation_petgroup}
+
       2702 ->
-          {:ok, :petcreation_selectpet}
+        {:ok, :petcreation_selectpet}
+
       2703 ->
-          {:ok, :petcreation_cat}
+        {:ok, :petcreation_cat}
+
       2704 ->
-          {:ok, :petcreation_dog}
+        {:ok, :petcreation_dog}
+
       2705 ->
-          {:ok, :petcreation_panda}
+        {:ok, :petcreation_panda}
+
       2706 ->
-          {:ok, :petcreation_horse}
+        {:ok, :petcreation_horse}
+
       2707 ->
-          {:ok, :petcreation_monkey}
+        {:ok, :petcreation_monkey}
+
       2708 ->
-          {:ok, :petcreation_petname}
+        {:ok, :petcreation_petname}
+
       2709 ->
-          {:ok, :petcreation_male}
+        {:ok, :petcreation_male}
+
       2710 ->
-          {:ok, :petcreation_female}
+        {:ok, :petcreation_female}
+
       2711 ->
-          {:ok, :petcreation_changepattern}
+        {:ok, :petcreation_changepattern}
+
       2712 ->
-          {:ok, :petcreation_changenummetaskin}
+        {:ok, :petcreation_changenummetaskin}
+
       2713 ->
-          {:ok, :petcreation_changecolor}
+        {:ok, :petcreation_changecolor}
+
       2714 ->
-          {:ok, :petcreation_changebellycolor}
+        {:ok, :petcreation_changebellycolor}
+
       2715 ->
-          {:ok, :petcreation_changepatterncolor}
+        {:ok, :petcreation_changepatterncolor}
+
       2716 ->
-          {:ok, :petcreation_changeeyecolor}
+        {:ok, :petcreation_changeeyecolor}
+
       2717 ->
-          {:ok, :petcreation_enterdialog}
+        {:ok, :petcreation_enterdialog}
+
       2718 ->
-          {:ok, :petcreation_createpet}
+        {:ok, :petcreation_createpet}
+
       2750 ->
-          {:ok, :petcreation_createpetresult}
+        {:ok, :petcreation_createpetresult}
+
       27500 ->
-          {:ok, :loadinginit}
+        {:ok, :loadinginit}
+
       28000 ->
-          {:ok, :loading}
+        {:ok, :loading}
+
       28500 ->
-          {:ok, :loadingdone}
-      _ -> {:error, [unknown_type: id]}
+        {:ok, :loadingdone}
+
+      _ ->
+        {:error, [unknown_type: id]}
     end
   end
 
   @impl true
-  def handle_packet(data) do
+  def parse_packet(data) do
     <<id::size(2)-unit(8)-unsigned-integer-little, rest::binary>> = data
-    [resp: [type: get_type_for_id(id), data: rest]]
+    [type: get_type_for_id(id), data: rest]
+  end
+
+  @impl true
+  def handle_packet(_socket, _transport, _conn_state, [type: type, data: data]) do
+    case type do
+      {:ok, evt} ->
+        Logger.info(
+          "Client logged GUI event '#{inspect(evt)}' #{if data != <<>>, do: inspect(data, binaries: :as_binaries)}"
+        )
+
+      {:error, [unknown_type: evt]} ->
+        Logger.info(
+          "Client logged unknown GUI event! '#{inspect(evt)}' #{if data != <<>>, do: inspect(data, binaries: :as_binaries)}"
+        )
+    end
   end
 end

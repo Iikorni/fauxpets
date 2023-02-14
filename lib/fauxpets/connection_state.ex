@@ -1,31 +1,31 @@
-defmodule Fauxpets.ProtocolBucket do
+defmodule Fauxpets.ConnectionState do
   use GenServer
   require Logger
 
   # Client
 
-  def login(bucket, user) do
-    GenServer.cast(bucket, {:login, user})
+  def login(conn_state, user) do
+    GenServer.cast(conn_state, {:login, user})
   end
 
-  def is_logged_in(bucket) do
-    GenServer.call(bucket, {:is_logged_in})
+  def is_logged_in(conn_state) do
+    GenServer.call(conn_state, {:is_logged_in})
   end
 
-  def get_user(bucket) do
-    GenServer.call(bucket, {:get_user})
+  def get_user(conn_state) do
+    GenServer.call(conn_state, {:get_user})
   end
 
-  def get_all_inventories(bucket) do
-    GenServer.call(bucket, {:get_all_inventories})
+  def get_all_inventories(conn_state) do
+    GenServer.call(conn_state, {:get_all_inventories})
   end
 
-  def get_inventory(bucket, inv_no) do
-    GenServer.call(bucket, {:get_inventory, inv_no})
+  def get_inventory(conn_state, inv_no) do
+    GenServer.call(conn_state, {:get_inventory, inv_no})
   end
 
-  def is_slot_occupied(bucket, inv_no, slot_index) do
-    GenServer.call(bucket, {:is_slot_occupied, inv_no, slot_index})
+  def is_slot_occupied(conn_state, inv_no, slot_index) do
+    GenServer.call(conn_state, {:is_slot_occupied, inv_no, slot_index})
   end
 
   # Server

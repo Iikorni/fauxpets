@@ -21,62 +21,7 @@ defmodule Fauxpets.Protocol.Server.InventoryList do
       Fauxpets.Protocol.Util.encode_int(stack.item.id) <> # Item ID
       Fauxpets.Protocol.Util.encode_short(Fauxpets.Item.reaction_to_short(stack.item.reaction)) <> # Reaction
       Fauxpets.Protocol.Util.encode_int(0) <> # Meter Int?
-      Fauxpets.Protocol.Util.encode_short(0) <>  # MOVEMENT
-      # g_Define.MOVEMENT_OBJ_FOOD                                     = 0
-# g_Define.MOVEMENT_OBJ_BALL                                     = 1
-# g_Define.MOVEMENT_OBJ_FLYING_BUG                               = 2
-# g_Define.MOVEMENT_OBJ_BALLOON                                  = 4
-# g_Define.MOVEMENT_OBJ_GETHER_BUTTERFLY                         = 5
-# g_Define.MOVEMENT_OBJ_GETHER_MOVEOBJ                           = 6
-# g_Define.MOVEMENT_OBJ_GETHER_SEAGULL                           = 7
-# g_Define.MOVEMENT_OBJ_MONSTER                                  = 8
-# g_Define.MOVEMENT_OBJ_HEADING                                  = 13
-# g_Define.MOVEMENT_OBJ_GOURL                                    = 14
-# g_Define.MOVEMENT_OBJ_STAND_UP                                 = 100
-# g_Define.MOVEMENT_OBJ_STAND_DOWN                               = 101
-# g_Define.MOVEMENT_OBJ_ITEM_ANI                                 = 300
-# g_Define.MOVEMENT_OBJ_ITEM_MISTLETOE                           = 301
-# g_Define.MOVEMENT_OBJ_MUSHROOM                                 = 302
-# g_Define.MOVEMENT_OBJ_MOVE_ANI                                 = 303
-# g_Define.MOVEMENT_OBJ_RIDE                                     = 304
-# g_Define.MOVEMENT_OBJ_MICROPET                                 = 305
-# g_Define.MOVEMENT_OBJ_CANIVAL                                  = 306
-# g_Define.MOVEMENT_OBJ_MANUAL                                   = 307
-# g_Define.MOVEMENT_OBJ_HOUSE_ANI                                = 308
-# g_Define.MOVEMENT_OBJ_FOOD_ANI                                 = 309
-# g_Define.MOVEMENT_OBJ_HUNTED_HOUSE                             = 310
-# g_Define.MOVEMENT_OBJ_REMOVEMOLDING_HOUSE                      = 311
-# g_Define.MOVEMENT_OBJ_JUKEBOX                                  = 312
-# g_Define.MOVEMENT_OBJ_POGOSTICK                                = 313
-# g_Define.MOVEMENT_OBJ_SIMPLICITY                               = 314
-# g_Define.MOVEMENT_OBJ_TOUGHTRUNKTREE                           = 315
-# g_Define.MOVEMENT_OBJ_SKYBIRD                                  = 316
-# g_Define.MOVEMENT_OBJ_PINATA                                   = 317
-# g_Define.MOVEMENT_OBJ_TREASUREMAP                              = 318
-# g_Define.MOVEMENT_OBJ_CRAFTINGFISHING                          = 319
-# g_Define.MOVEMENT_OBJ_CRAFTINGNATURE                           = 320
-# g_Define.MOVEMENT_OBJ_POTIONEFFECT                             = 321
-# g_Define.MOVEMENT_OBJ_DESKSHOP                                 = 322
-# g_Define.MOVEMENT_OBJ_SUPER_TREE                               = 1000
-# g_Define.MOVEMENT_OBJ_RECIPE                                   = 1001
-# g_Define.MOVEMENT_OBJ_SUPER_TREE_ANI                           = 1002
-# g_Define.MOVEMENT_ATTACH_NONE                                  = 0
-# g_Define.MOVEMENT_ATTACH_RIDE                                  = 1
-# g_Define.MOVEMENT_ATTACH_SWORD1                                = 10
-# g_Define.MOVEMENT_ATTACH_SHIELD                                = 11
-# g_Define.MOVEMENT_ATTACH_STICKBAR                              = 12
-# g_Define.MOVEMENT_ATTACH_FISHING_ROD                           = 30
-# g_Define.MOVEMENT_SET_ITEM_DESKTOP                             = 1
-# g_Define.MOVEMENT_SET_ITEM_EXTERIOR_FIELD                      = 2
-# g_Define.MOVEMENT_FUNC_PET_COLOR_CHANGE                        = 0
-# g_Define.MOVEMENT_FUNC_USER_NAMEPLATE                          = 1
-# g_Define.MOVEMENT_FUNC_PET_CHANGE                              = 2
-# g_Define.MOVEMENT_FUNC_USER_ITEM                               = 3
-# g_Define.MOVEMENT_FUNC_CONVERT_BREED_ITEM                      = 9
-# g_Define.MOVEMENT_FUNC_GROOMING                                = 10
-# g_Define.MOVEMENT_FUNC_PET_SOUND_DLG                           = 100
-# g_Define.MOVEMENT_FUNC_PET_ADOPTION                            = 200
-# g_Define.MOVEMENT_DIRECT_USE_MAGIC_BOX                         = 1
+      Fauxpets.Protocol.Util.encode_short(Fauxpets.Item.movement_type_to_short(stack.item.movement_type)) <>  # Movement pe
       Fauxpets.Protocol.Util.encode_byte(Fauxpets.Item.goods_type_to_byte(stack.item.goods_type)) <> # Goods Type
       Fauxpets.Protocol.Util.encode_byte(Fauxpets.Item.what_type_to_byte(stack.item.what_type)) <> # What Type
       Fauxpets.Protocol.Util.encode_int(stack.item.gold) <> # GOLD
@@ -165,8 +110,8 @@ defmodule Fauxpets.Protocol.Server.InventoryList do
     Logger.info("InventoryList send for Inventory (inventory: #{inspect(box.inventory)})")
     send_inventory_packet(socket, transport, inv_no: inv_no, inventory: box.inventory)
 
-    Logger.info("InventoryList send for Giftbox (giftbox: #{inspect(box.giftbox)})")
-    send_giftbox_packet(socket, transport, inv_no: inv_no, giftbox: box.giftbox)
+    # Logger.info("InventoryList send for Giftbox (giftbox: #{inspect(box.giftbox)})")
+    # send_giftbox_packet(socket, transport, inv_no: inv_no, giftbox: box.giftbox)
 
     Logger.info("InventoryListEnd send")
     transport.send(socket, Fauxpets.Protocol.Util.create_packet(0x1C21, <<>>))
